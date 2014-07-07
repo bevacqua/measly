@@ -1,0 +1,29 @@
+{
+  "name": "measly",
+  "description": "A measly wrapper around XHR to help you contain your requests",
+  "version": "0.1.0",
+  "homepage": "https://github.com/bevacqua/measly",
+  "author": {
+    "name": "Nicolas Bevacqua",
+    "email": "ng@bevacqua.io",
+    "url": "http://bevacqua.io"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bevacqua/measly.git"
+  },
+  "main": "dist/measly.js",
+  "ignore": [
+    ".*",
+    "package.json",
+    "node_modules",
+    "src",
+    "test",
+    "resources",
+    "index.js",
+    "shim.js",
+    "gulpfile.js"
+  ],
+  "dependencies": {}
+}
