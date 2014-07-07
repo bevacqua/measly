@@ -118,6 +118,8 @@ That's all it has to show for!
 
 # Events
 
+In every event listener, `state` will be the context assigned to `this`.
+
 Event          | Arguments     | Fired when...
 ---------------|---------------|-----------------------------------------------------------
 `'create'`     | `(state)`     | A `measly` request is initiated
