@@ -70,12 +70,12 @@ function measly (measlyOptions, parent) {
         throw new Error('A request has already been made. Prevent synchronously!');
       }
       state.prevented = true;
-      raf(prevented);
+      raf(prevented.bind(null, err, body));
+    }
 
-      function prevented () {
-        state.emit('cache', err, body);
-        done(err, { body: body }, body);
-      }
+    function prevented (err, body) {
+      state.emit('cache', err, body);
+      done(err, { body: body }, body);
     }
 
     function request () {
