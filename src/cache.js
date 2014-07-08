@@ -6,17 +6,17 @@ function find (url, context) {
   while (ctx) {
     cache = ctx.cache;
     if (url in cache) {
-      if (isStale(cache[url])) {
-        delete cache[url];
+      if (isFresh(cache[url])) {
+        return cache[url];
       }
-      return cache[url];
+      delete cache[url];
     }
     ctx = ctx.parent;
   }
 }
 
-function isStale (entry) {
-  return entry.expires - new Date() < 0;
+function isFresh (entry) {
+  return entry.expires - new Date() > 0;
 }
 
 function expires (duration) {
