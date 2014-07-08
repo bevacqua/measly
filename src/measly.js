@@ -30,13 +30,8 @@ function measly (measlyOptions, parent) {
     return child;
   }
 
-  function abort (children) {
-    if (children) {
-      aggregate(context, true).forEach(abortRequest);
-    } else {
-      context.requests.forEach(abortRequest);
-      context.requests = [];
-    }
+  function abort () {
+    aggregate(context, true).forEach(abortRequest);
   }
 
   function abortRequest (req) {
