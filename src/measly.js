@@ -76,11 +76,11 @@ function measly (measlyOptions, parent) {
     }
 
     function cacheHit () {
-      var xhr;
       var entry = cache.find(url, context);
       if (entry) {
         entry.cached = true;
         req.xhr = entry;
+        req.emit('cache', entry.error, entry.body);
         done(entry.error, entry, entry.body);
       }
       return entry;
