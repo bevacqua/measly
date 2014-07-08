@@ -7,47 +7,58 @@ var cache = require('./cache');
 var aggregate = require('./aggregate');
 var emitUpstream = require('./emitUpstream');
 var methods = ['get', 'post', 'put', 'delete', 'patch'];
-var stateEvents = ['create', 'cache', 'request', 'abort', 'error', 'success', 'always'];
+var stateEvents = ['create', 'cache', 'request', 'abort', 'error', 'data', 'always'];
 
 function measly (measlyOptions, parent) {
-  var context = contra.emitter({
+  var layer = contra.emitter({
     thinner: thinner,
     parent: parent,
     context: measlyOptions.context,
     children: [],
     requests: [],
     cache: {},
-    abort: abort
+    abort: abort,
+    request: request
   });
 
   methods.forEach(function addMethod (method) {
-    context[method] = fire.bind(null, method.toUpperCase());
+    layer[method] = fire.bind(null, method);
   });
 
+  function request (url, opt) {
+    var method = opt.method;
+    if (opt && opt.xhr && opt.xhr.method) {
+      method = opt.xhr.method;
+    }
+    if (!method) {
+      throw new Error('A request method must be specified.');
+    }
+    return fire(method, url, opt);
+  }
+
   function thinner (opt) {
-    var child = measly(opt || measlyOptions, context);
-    context.children.push(child);
+    var child = measly(opt || measlyOptions, layer);
+    layer.children.push(child);
     return child;
   }
 
-  function fire (method, endpoint, opt) {
+  function fire (method, url, opt) {
     var fireOptions = opt || {};
-    var url = (fireOptions.base || measlyOptions.base || '') + endpoint;
-    var ajaxOptions = {
-      url: url,
-      method: method,
-      json: fireOptions.data,
-      headers: { Accept: 'application/json' }
-    };
+    fireOptions.url = url;
+    fireOptions.method = method.toUpperCase();
+
     var req = contra.emitter({
+      done: false,
+      requested: false,
       prevented: false,
       prevent: prevent,
+      layer: layer,
       context: fireOptions.context || measlyOptions.context,
       cache: fireOptions.cache || measlyOptions.cache
     });
     req.abort = abortRequest.bind(null, req);
 
-    emitUpstream(req, context, stateEvents);
+    emitUpstream(req, layer, stateEvents);
     raf(go);
 
     function go () {
@@ -76,25 +87,26 @@ function measly (measlyOptions, parent) {
     }
 
     function cacheHit () {
-      var entry = cache.find(url, context);
+      var entry = cache.find(url, layer);
       if (entry) {
         entry.cached = true;
         req.xhr = entry;
+        req.prevented = true;
         req.emit('cache', entry.error, entry.body);
         done(entry.error, entry, entry.body);
       }
-      return entry;
     }
 
     function request () {
-      if (cacheHit()) {
+      if (method === 'GET') {
+        cacheHit();
+      }
+      if (req.prevented) {
         return;
       }
-      if (req.prevented === false) {
-        req.requested = true;
-        req.xhr = xhr(ajaxOptions, done);
-        req.emit('request', req.xhr);
-      }
+      req.requested = true;
+      req.xhr = xhr(fireOptions, done);
+      req.emit('request', req.xhr);
     }
 
     function done (err, res, body) {
@@ -102,7 +114,7 @@ function measly (measlyOptions, parent) {
       req.response = body;
       req.done = true;
       if (req.cache && !res.cached) {
-        context.cache[url] = {
+        layer.cache[url] = {
           expires: cache.expires(req.cache),
           error: err,
           body: body,
@@ -123,7 +135,7 @@ function measly (measlyOptions, parent) {
   }
 
   function abort () {
-    aggregate(context, true).forEach(abortRequest);
+    aggregate(layer, true).forEach(abortRequest);
   }
 
   function abortRequest (req) {
@@ -137,20 +149,21 @@ function measly (measlyOptions, parent) {
   }
 
   function track (req) {
-    context.requests.push(req);
+    layer.requests.push(req);
   }
 
   function untrack (req) {
-    var i = context.requests.indexOf(req);
-    var spliced = context.requests.splice(i, 1);
+    var i = layer.requests.indexOf(req);
+    var spliced = layer.requests.splice(i, 1);
     if (spliced.length) {
       req.emit('always', req.error, req.response, req);
     }
   }
 
-  return context;
+  return layer;
 }
 
 module.exports = measly({
-  context: global.window
+  context: global.document.body,
+  base: ''
 });
