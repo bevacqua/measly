@@ -105,8 +105,8 @@ Thin aims to be a layer between you and XHR requests, and it takes it a bit furt
 ```js
 var thin = measly.thinner({});
 
-thin.on('create', function (e) {
-  e.prevent(null, 'a'); // prevention must be sync, otherwise AJAX request will fire!
+thin.on('create', function (req) {
+  req.prevent(null, 'a'); // prevention must be sync, otherwise AJAX request will fire!
 });
 
 thin.get('/foo').on('done', function (body) {
@@ -118,11 +118,11 @@ That's all it has to show for!
 
 # Events
 
-In every event listener, `state` will be the context assigned to `this`.
+In every event listener, `req` will be the context assigned to `this`.
 
 Event          | Arguments     | Fired when...
 ---------------|---------------|-----------------------------------------------------------
-`'create'`     | `(state)`     | A `measly` request is initiated
+`'create'`     | `(req)`     | A `measly` request is initiated
 `'cache'`      | `(err, body)` | A request is prevented during the `'create'` event
 `'request'`    | `(xhr)`       | An XHR request is opened
 `'abort'`      | `(xhr?)`      | The request is aborted
