@@ -7,6 +7,7 @@ module.exports = function (emitter, context, types) {
 
   function raise () {
     var ctx = context;
+    console.log(arguments);
     while (ctx) {
       ctx.emit.apply(emitter, arguments);
       ctx = ctx.parent;
