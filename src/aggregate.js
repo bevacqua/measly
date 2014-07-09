@@ -1,12 +1,14 @@
 'use strict';
 
-function expand (accumulator, child) {
-  accumulator.push.apply(accumulator, aggregate(child));
-  return accumulator;
+function expand (fn) {
+  return function expansion (accumulator, child) {
+    accumulator.push.apply(accumulator, fn(child));
+    return accumulator;
+  };
 }
 
 function requests (layer, clear) {
-  var result = layer.requests.concat(layer.children.reduce(expand, []));
+  var result = layer.requests.concat(layer.children.reduce(expand(requests), []));
   if (clear) {
     layer.requests = [];
   }
@@ -18,7 +20,7 @@ function contexts (layer) {
     context: layer.context,
     layer: layer
   }];
-  return self.concat(layer.children.reduce(expand, []));
+  return self.concat(layer.children.reduce(expand(contexts), []));
 }
 
 module.exports = {
