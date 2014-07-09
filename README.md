@@ -118,6 +118,17 @@ core.get('/api/v1/logs').on('data', function (err, res, body) {
 });
 ```
 
+**Note that the `cache` properties are automatically set for you if you define a duration for which your requests are _cache-worthy_.**
+
+```js
+var core = require('measly');
+core.get('/api/v1/logs', { cache: 60000 }).on('data', function () {
+  core.get('/api/v1/logs').on('data', function () {
+    // same response. the resource won't be hit again for 60 seconds
+  });
+});
+```
+
 ## `.abort()`
 
 This method will abort all pending requests found on this layer as well as all its children's requests, recursively.
