@@ -52,21 +52,16 @@ gulp.task('bump', function () {
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('tag', ['build'], function (done) {
+gulp.task('tag', ['build'], function () {
   var pkg = require('./package.json');
   var v = 'v' + pkg.version;
   var message = 'Release ' + v;
 
-  gulp.src('./')
+  return gulp.src('./')
     .pipe(git.commit(message))
-    .pipe(gulp.dest('./'))
-    .on('end', tag);
-
-  function tag () {
-    git.tag(v, message);
-    git.push('origin', 'master', { args: '--tags' }).end();
-    done();
-  }
+    .pipe(git.tag(v, message))
+    .pipe(git.push('origin', 'master', '--tags'))
+    .pipe(gulp.dest('./'));
 });
 
 gulp.task('npm', ['tag'], function (done) {
