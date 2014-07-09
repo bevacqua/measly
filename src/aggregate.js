@@ -13,7 +13,7 @@ function requests (layer, clear) {
   return result;
 }
 
-function context (layer) {
+function contexts (layer) {
   var self = [{
     context: layer.context,
     layer: layer
