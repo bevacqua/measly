@@ -9,7 +9,7 @@ module.exports = function (emitter, context, types) {
     var args = Array.prototype.slice.call(arguments);
     var all = [type].concat(args);
     var ctx = context;
-
+console.log(all);
     while (ctx) {
       ctx.emit.apply(emitter, all);
       ctx = ctx.parent;
