@@ -56,7 +56,9 @@ function measly (measlyOptions, parent) {
       prevent: prevent,
       layer: layer,
       context: fireOptions.context || measlyOptions.context,
-      cache: fireOptions.cache || measlyOptions.cache
+      cache: fireOptions.cache || measlyOptions.cache,
+      url: url,
+      method: method
     }, { throws: false });
     req.abort = abortRequest.bind(null, req);
 
