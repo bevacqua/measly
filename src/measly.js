@@ -21,7 +21,7 @@ function measly (measlyOptions, parent) {
     cache: {},
     abort: abort,
     request: request
-  });
+  }, { throws: false });
 
   methods.forEach(function addMethod (method) {
     layer[method] = fire.bind(null, method);
@@ -57,7 +57,7 @@ function measly (measlyOptions, parent) {
       layer: layer,
       context: fireOptions.context || measlyOptions.context,
       cache: fireOptions.cache || measlyOptions.cache
-    });
+    }, { throws: false });
     req.abort = abortRequest.bind(null, req);
 
     emitUpstream(req, layer, stateEvents);
