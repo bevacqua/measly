@@ -2,16 +2,13 @@
 
 module.exports = function (emitter, context, types) {
   types.forEach(function through (type) {
-    emitter.on(type, raise.bind(emitter, type));
+    emitter.on(type, raise);
   });
 
-  function raise (type) {
-    var args = Array.prototype.slice.call(arguments);
-    var all = [type].concat(args);
+  function raise () {
     var ctx = context;
-console.log(all);
     while (ctx) {
-      ctx.emit.apply(emitter, all);
+      ctx.emit.apply(emitter, arguments);
       ctx = ctx.parent;
     }
   }
