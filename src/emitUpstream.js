@@ -6,10 +6,11 @@ module.exports = function (emitter, context, types) {
   });
 
   function raise () {
+    var args = Array.prototype.slice.call(arguments);
+    var all = [type].concat(args);
     var ctx = context;
-    console.log(arguments);
     while (ctx) {
-      ctx.emit.apply(emitter, arguments);
+      ctx.emit.apply(emitter, all);
       ctx = ctx.parent;
     }
   }
