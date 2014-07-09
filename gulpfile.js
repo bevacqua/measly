@@ -52,7 +52,7 @@ gulp.task('bump', function () {
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('tag', ['build', 'styles'], function (done) {
+gulp.task('tag', ['build'], function (done) {
   var pkg = require('./package.json');
   var v = 'v' + pkg.version;
   var message = 'Release ' + v;

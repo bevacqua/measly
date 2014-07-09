@@ -1,7 +1,7 @@
 {
   "name": "measly",
   "description": "A measly wrapper around XHR to help you contain your requests",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/bevacqua/measly",
   "author": {
     "name": "Nicolas Bevacqua",
@@ -24,10 +24,12 @@
     "gulp-mocha": "~0.3.0",
     "gulp-rename": "~0.2.2",
     "gulp-size": "~0.1.1",
+    "gulp-streamify": "0.0.5",
     "gulp-uglify": "~0.1.0",
     "jshint": "~2.4.1",
     "jshint-stylish": "~0.1.5",
-    "jshint-tap": "0.0.1"
+    "jshint-tap": "0.0.1",
+    "vinyl-source-stream": "^0.1.1"
   },
   "dependencies": {
     "contra": "^1.6.4",
