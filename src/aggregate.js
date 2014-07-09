@@ -1,16 +1,27 @@
 'use strict';
 
-function aggregate (context, clear) {
-  var result = context.requests.concat(context.children.reduce(expand, []));
-  if (clear) {
-    context.requests = [];
-  }
-  return result;
-}
-
 function expand (accumulator, child) {
   accumulator.push.apply(accumulator, aggregate(child));
   return accumulator;
 }
 
-module.exports = aggregate;
+function requests (layer, clear) {
+  var result = layer.requests.concat(layer.children.reduce(expand, []));
+  if (clear) {
+    layer.requests = [];
+  }
+  return result;
+}
+
+function context (layer) {
+  var self = [{
+    context: layer.context,
+    layer: layer
+  }];
+  return self.concat(layer.children.reduce(expand, []));
+}
+
+module.exports = {
+  requests: requests,
+  contexts: contexts
+};

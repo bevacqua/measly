@@ -22,7 +22,7 @@ Measly works as a hierarchy-based layer that helps you perform XHR requests. `me
 
 Option    | Description
 ----------|--------------------------------------------------------------------------------------------
-`context` | An arbitrary context object for this. DOM elements are encouraged. Defaults to `document.body`.
+`context` | A DOM context element for the layer. Defaults to `document.body`.
 `cache`   | Milliseconds that response data is considered fresh. Defaults to `false`.
 
 #### Usage
@@ -53,7 +53,7 @@ console.log(thin.parent);
 
 ## `.context`
 
-This is the context object for the measly layer.
+This is the context element for the measly layer.
 
 #### Usage
 
@@ -67,6 +67,24 @@ console.log(core.context);
 console.log(thin.context);
 // <- div
 ```
+
+## `.find(context)`
+
+Finds a measly layer by their `context` DOM element. If the provided element isn't found in any layer, its parent element is looked up. If no other parent elements are found, then you're going to get `core` back because its context is `document.body`. **Note that this method is only available in the top measly layer.**
+
+#### Usage
+
+```js
+var core = require('measly');
+var thin = core.thinner({ context: div });
+
+console.log(core.find(document.body));
+// <- core
+
+console.log(core.find(div));
+// <- thin
+```
+
 
 ## `.children`
 

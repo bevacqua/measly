@@ -1,5 +1,6 @@
 'use strict';
 
+var _find = require('lodash.find');
 var raf = require('raf');
 var xhr = require('xhr');
 var contra = require('contra');
@@ -8,6 +9,7 @@ var aggregate = require('./aggregate');
 var emitUpstream = require('./emitUpstream');
 var methods = ['get', 'post', 'put', 'delete', 'patch'];
 var stateEvents = ['create', 'cache', 'request', 'abort', 'error', 'data', 'always'];
+var core;
 
 function measly (measlyOptions, parent) {
   var layer = contra.emitter({
@@ -135,7 +137,7 @@ function measly (measlyOptions, parent) {
   }
 
   function abort () {
-    aggregate(layer, true).forEach(abortRequest);
+    aggregate.requests(layer, true).forEach(abortRequest);
   }
 
   function abortRequest (req) {
@@ -163,7 +165,20 @@ function measly (measlyOptions, parent) {
   return layer;
 }
 
-module.exports = measly({
+function find (context) {
+  var layers = aggregate.contexts(core);
+  while (context) {
+    var needle = _find(layers, { context: context });
+    if (needle) {
+      return needle.layer;
+    }
+    context = context.parentNode;
+  }
+}
+
+module.exports = core = measly({
   context: global.document.body,
   base: ''
 });
+
+core.find = find;

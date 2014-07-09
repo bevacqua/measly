@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "contra": "^1.6.4",
+    "lodash.find": "^2.4.1",
     "raf": "^2.0.1",
     "xhr": "^1.13.0"
   }
