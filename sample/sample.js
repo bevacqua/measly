@@ -75,17 +75,7 @@ void function () {
         } else {
           state = 'created';
         }
-        html += [
-          '<div class="',
-          cls,
-          '">',
-          req.method,
-          ', ',
-          req.duration,
-          's (',
-          state,
-          ') </div>'
-        ].join('') + '\n';
+        html += ['<div class="',cls,'">',req.method,', ',req.duration,'s (',state,') </div>\n'].join('');
       });
       description.innerHTML = html;
     }
