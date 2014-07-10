@@ -23,7 +23,8 @@
     "resources",
     "index.js",
     "shim.js",
-    "gulpfile.js"
+    "gulpfile.js",
+    "sample"
   ],
   "dependencies": {}
 }
