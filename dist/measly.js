@@ -1975,8 +1975,8 @@ function createXHR(options, callback) {
     if ("responseType" in options) {
         xhr.responseType = options.responseType
     }
-    
-    if ("beforeSend" in options && 
+
+    if ("beforeSend" in options &&
         typeof options.beforeSend === "function"
     ) {
         options.beforeSend(xhr)
@@ -2014,7 +2014,7 @@ function createXHR(options, callback) {
             error = new Error(message)
             error.statusCode = status
         }
-        
+
         xhr.status = xhr.statusCode = status;
 
         if (isJson) {
@@ -2162,7 +2162,7 @@ var core;
 
 function measly (measlyOptions, parent) {
   var layer = contra.emitter({
-    thinner: thinner,
+    layer: thinner,
     parent: parent,
     context: measlyOptions.context,
     children: [],

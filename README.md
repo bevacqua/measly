@@ -20,9 +20,9 @@ bower install measly --save
 
 Here is the API exposed by `measly`.
 
-## `.thinner(options?)`
+## `.layer(options?)`
 
-Measly works as a hierarchy-based layer that helps you perform XHR requests. `measly.thinner()` provides the same API as `measly` does, by creating a child layer. Measly supports tree-like structures as well. You can use thinner layer to create requests from different parts of your application. You can pass a few options to `measly.thinner`.
+Measly works as a hierarchy-based layer that helps you perform XHR requests. `measly.layer()` provides the same API as `measly` does, by creating a child layer. Measly supports tree-like structures as well. You can use a thinner layer to create requests from different parts of your application. You can pass a few options to `measly.layer`.
 
 Option    | Description
 ----------|--------------------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ Option    | Description
 
 ```js
 var core = require('measly');
-var thin = core.thinner();
+var thin = core.layer();
 
 // thin has same api as core
 ```
@@ -46,7 +46,7 @@ Access the parent layer.
 
 ```js
 var core = require('measly');
-var thin = core.thinner();
+var thin = core.layer();
 
 console.log(core.parent);
 // <- undefined
@@ -63,7 +63,7 @@ This is the context element for the measly layer.
 
 ```js
 var core = require('measly');
-var thin = core.thinner({ context: div });
+var thin = core.layer({ context: div });
 
 console.log(core.context);
 // <- document.body
@@ -80,7 +80,7 @@ Finds a measly layer by their `context` DOM element. If the provided element isn
 
 ```js
 var core = require('measly');
-var thin = core.thinner({ context: div });
+var thin = core.layer({ context: div });
 
 console.log(core.find(document.body));
 // <- core
@@ -98,7 +98,7 @@ Array of thinner layers created on top of this layer.
 
 ```js
 var core = require('measly');
-var thin = core.thinner();
+var thin = core.layer();
 
 console.log(core.children);
 // <- [thin]
