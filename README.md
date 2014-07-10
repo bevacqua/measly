@@ -2,6 +2,10 @@
 
 > A measly wrapper around XHR to help you contain your requests
 
+# Online Demo
+
+![measly.png][3]
+
 # Install
 
 ```shell
@@ -266,3 +270,4 @@ MIT
 
 [1]: https://github.com/Raynos/xhr
 [2]: https://github.com/bevacqua/contra
+[3]: https://cloud.githubusercontent.com/assets/934293/3533872/66285232-07dc-11e4-9601-b7f4ae07bf3e.png
