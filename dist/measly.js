@@ -1,6 +1,6 @@
 /**
  * measly - A measly wrapper around XHR to help you contain your requests
- * @version v0.1.16
+ * @version v0.1.17
  * @link https://github.com/bevacqua/measly
  * @license MIT
  */
@@ -1975,8 +1975,8 @@ function createXHR(options, callback) {
     if ("responseType" in options) {
         xhr.responseType = options.responseType
     }
-
-    if ("beforeSend" in options &&
+    
+    if ("beforeSend" in options && 
         typeof options.beforeSend === "function"
     ) {
         options.beforeSend(xhr)
@@ -2014,7 +2014,7 @@ function createXHR(options, callback) {
             error = new Error(message)
             error.statusCode = status
         }
-
+        
         xhr.status = xhr.statusCode = status;
 
         if (isJson) {
@@ -2162,7 +2162,7 @@ var core;
 
 function measly (measlyOptions, parent) {
   var layer = contra.emitter({
-    layer: thinner,
+    thinner: thinner,
     parent: parent,
     context: measlyOptions.context,
     children: [],
