@@ -80,9 +80,9 @@ void function () {
           cls,
           '">',
           req.method,
-          ' ',
-          req.url,
-          ' (',
+          ', ',
+          req.duration,
+          's (',
           state,
           ') </div>'
         ].join('') + '\n';
@@ -96,8 +96,9 @@ void function () {
       return;
     }
     var layer = measly.find(e.target);
-    var duration = Math.floor(Math.random() * 3000 + 1000);
-    layer.get('/test/' + duration);
+    var duration = Math.floor(Math.random() * 30 + 2);
+    var req = layer.get('http://www.filltext.com/?rows=10&f={firstName}&delay=' + duration);
+    req.duration = duration;
   }
 
   function preventAll () {
