@@ -14,6 +14,7 @@
     "url": "git://github.com/bevacqua/measly.git"
   },
   "devDependencies": {
+    "browserify": "^4.2.1",
     "gulp": "^3.6.2",
     "gulp-bump": "~0.1.0",
     "gulp-clean": "~0.2.3",
