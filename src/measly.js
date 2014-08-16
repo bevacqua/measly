@@ -47,7 +47,6 @@ function measly (measlyOptions, parent) {
   }
 
   function thinner (opt) {
-    console.log(opt);
     var existing = find(opt.context || measlyOptions.context, true);
     if (existing) {
       return existing;
