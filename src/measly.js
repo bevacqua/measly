@@ -10,6 +10,7 @@ var emitUpstream = require('./emitUpstream');
 var methods = ['get', 'post', 'put', 'delete', 'patch'];
 var stateEvents = ['create', 'cache', 'request', 'abort', 'error', 'data', 'always'];
 var core;
+var all = [];
 
 function measly (measlyOptions, parent) {
   var layer = find(measlyOptions.context, true);
@@ -31,6 +32,8 @@ function measly (measlyOptions, parent) {
   methods.forEach(function addMethod (method) {
     layer[method] = fire.bind(null, method);
   });
+
+  all.push(layer);
 
   function request (url, opt) {
     var method = opt.method;
@@ -193,3 +196,4 @@ module.exports = core = measly({
 });
 
 core.find = find;
+core.all = all;
