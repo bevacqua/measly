@@ -8,6 +8,7 @@
     "email": "ng@bevacqua.io",
     "url": "http://bevacqua.io"
   },
+  "main": "src/measly.js",
   "license": "MIT",
   "repository": {
     "type": "git",
