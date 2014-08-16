@@ -18,7 +18,7 @@ function measly (measlyOptions, parent) {
   }
 
   layer = contra.emitter({
-    thinner: thinner,
+    layer: thinner,
     parent: parent,
     context: measlyOptions.context,
     children: [],
