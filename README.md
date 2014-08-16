@@ -29,6 +29,8 @@ Option    | Description
 `context` | A DOM context element for the layer. Defaults to `document.body`.
 `cache`   | Milliseconds that response data is considered fresh. Defaults to `false`.
 
+Note that if you pass in a `context` that already has a Measly layer, that layer will be returned instead.
+
 #### Usage
 
 ```js
@@ -72,9 +74,11 @@ console.log(thin.context);
 // <- div
 ```
 
-## `.find(context)`
+## `.find(context, shallow?)`
 
 Finds a measly layer by their `context` DOM element. If the provided element isn't found in any layer, its parent element is looked up. If no other parent elements are found, then you're going to get `core` back because its context is `document.body`. **Note that this method is only available in the top measly layer.**
+
+If you set `shallow` to `true`, then only the provided `context` will be tested, rather than walking the DOM tree.
 
 #### Usage
 
