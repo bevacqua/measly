@@ -179,14 +179,15 @@ function find (context, shallow) {
   if (core === void 0) {
     return;
   }
+  var depleted;
   var layers = aggregate.contexts(core);
-  while (context && !shallow) {
+  while (context && !depleted) {
     var needle = _find(layers, { context: context });
     if (needle) {
       return needle.layer;
     }
     context = context.parentNode;
-    shallow = true;
+    depleted = shallow === true;
   }
 }
 
