@@ -12,7 +12,12 @@ var stateEvents = ['create', 'cache', 'request', 'abort', 'error', 'data', 'alwa
 var core;
 
 function measly (measlyOptions, parent) {
-  var layer = contra.emitter({
+  var layer = find(measlyOptions.context, true);
+  if (layer) {
+    return layer;
+  }
+
+  layer = contra.emitter({
     thinner: thinner,
     parent: parent,
     context: measlyOptions.context,
@@ -167,14 +172,15 @@ function measly (measlyOptions, parent) {
   return layer;
 }
 
-function find (context) {
+function find (context, shallow) {
   var layers = aggregate.contexts(core);
-  while (context) {
+  while (context && !shallow) {
     var needle = _find(layers, { context: context });
     if (needle) {
       return needle.layer;
     }
     context = context.parentNode;
+    shallow = true;
   }
 }
 
