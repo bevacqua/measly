@@ -173,6 +173,9 @@ function measly (measlyOptions, parent) {
 }
 
 function find (context, shallow) {
+  if (core === void 0) {
+    return;
+  }
   var layers = aggregate.contexts(core);
   while (context && !shallow) {
     var needle = _find(layers, { context: context });
