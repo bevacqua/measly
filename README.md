@@ -74,6 +74,10 @@ console.log(thin.context);
 // <- div
 ```
 
+## `.all`
+
+Lists all of the measly layers that have been ever created. **Note that this method is only available in the top measly layer.**
+
 ## `.find(context, shallow?)`
 
 Finds a measly layer by their `context` DOM element. If the provided element isn't found in any layer, its parent element is looked up. If no other parent elements are found, then you're going to get `core` back because its context is `document.body`. **Note that this method is only available in the top measly layer.**
@@ -92,7 +96,6 @@ console.log(core.find(document.body));
 console.log(core.find(div));
 // <- thin
 ```
-
 
 ## `.children`
 
