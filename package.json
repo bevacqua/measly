@@ -1,7 +1,7 @@
 {
   "name": "measly",
   "description": "A measly wrapper around XHR to help you contain your requests",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "homepage": "https://github.com/bevacqua/measly",
   "author": {
     "name": "Nicolas Bevacqua",
@@ -34,7 +34,7 @@
     "vinyl-source-stream": "^0.1.1"
   },
   "dependencies": {
-    "contra": "^1.6.9",
+    "contra": "^1.6.10",
     "lodash.find": "^2.4.1",
     "raf": "^2.0.1",
     "xhr": "^1.14.1"
