@@ -6,9 +6,8 @@ var xhr = require('xhr');
 var contra = require('contra');
 var cache = require('./cache');
 var aggregate = require('./aggregate');
-var emitUpstream = require('./emitUpstream');
+var emitCascade = require('./emitCascade');
 var methods = ['get', 'post', 'put', 'delete', 'patch'];
-var stateEvents = ['create', 'cache', 'request', 'abort', 'error', 'data', 'always'];
 var core;
 var all = [];
 
@@ -74,11 +73,10 @@ function measly (measlyOptions, parent) {
     }, { throws: false });
     req.abort = abortRequest.bind(null, req);
 
-    emitUpstream(req, layer, stateEvents);
     raf(go);
 
     function go () {
-      req.emit('create', req);
+      emitCascade(req, 'create', req);
       request();
     }
 
@@ -97,7 +95,7 @@ function measly (measlyOptions, parent) {
           body: body,
           statusCode: statusCode || err ? 500 : 200
         };
-        req.emit('cache', err, body);
+        emitCascade(req, 'cache', err, body);
         done(err, xhr, body);
       }
     }
@@ -108,7 +106,7 @@ function measly (measlyOptions, parent) {
         entry.cached = true;
         req.xhr = entry;
         req.prevented = true;
-        req.emit('cache', entry.error, entry.body);
+        emitCascade(req, 'cache', entry.error, entry.body);
         done(entry.error, entry, entry.body);
       }
     }
@@ -122,7 +120,7 @@ function measly (measlyOptions, parent) {
       }
       req.requested = true;
       req.xhr = xhr(fireOptions, done);
-      req.emit('request', req.xhr);
+      emitCascade(req, 'request', req.xhr);
     }
 
     function done (err, res, body) {
@@ -138,10 +136,10 @@ function measly (measlyOptions, parent) {
         };
       }
       if (err) {
-        req.emit('error', err, body);
-        req.emit(err.statusCode, err, body);
+        emitCascade(req, 'error', err, body);
+        emitCascade(req, err.statusCode, err, body);
       } else {
-        req.emit('data', body);
+        emitCascade(req, 'data', body);
       }
       untrack(req);
     }
@@ -156,7 +154,7 @@ function measly (measlyOptions, parent) {
 
   function abortRequest (req) {
     req.prevented = true;
-    req.emit('abort', req.xhr);
+    emitCascade(req, 'abort', req.xhr);
 
     if (req.xhr) {
       req.xhr.abort();
@@ -172,7 +170,7 @@ function measly (measlyOptions, parent) {
     var i = layer.requests.indexOf(req);
     var spliced = layer.requests.splice(i, 1);
     if (spliced.length) {
-      req.emit('always', req.error, req.response, req);
+      emitCascade(req, 'always', req.error, req.response, req);
     }
   }
 

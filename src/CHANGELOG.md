@@ -1,3 +1,7 @@
+# 1.2.2
+
+- Events are now properly emitter downstream starting on the top-most layer
+
 # 1.2.0
 
 - Added `.all` to list all measly layers
