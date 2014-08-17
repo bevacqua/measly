@@ -1,6 +1,6 @@
 /**
  * measly - A measly wrapper around XHR to help you contain your requests
- * @version v1.2.6
+ * @version v1.2.7
  * @link https://github.com/bevacqua/measly
  * @license MIT
  */
