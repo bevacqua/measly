@@ -60,6 +60,13 @@ function measly (measlyOptions, parent) {
     fireOptions.url = url;
     fireOptions.method = method.toUpperCase();
 
+    if (!fireOptions.headers) {
+      fireOptions.headers = {};
+    }
+    if (!fireOptions.headers['Content-Type']) {
+      fireOptions.headers['Content-Type'] = 'application/json';
+    }
+
     var req = contra.emitter({
       done: false,
       requested: false,

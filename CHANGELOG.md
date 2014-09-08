@@ -1,3 +1,7 @@
+# 1.2.8
+
+- Default to `application/json` content type
+
 # 1.2.2
 
 - Events are now properly emitter downstream starting on the top-most layer
