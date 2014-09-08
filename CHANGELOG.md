@@ -1,6 +1,6 @@
-# 1.2.8
+# 1.2.9
 
-- Default to `application/json` content type
+- Default to an empty JSON body
 
 # 1.2.2
 

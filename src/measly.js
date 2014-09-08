@@ -57,15 +57,9 @@ function measly (measlyOptions, parent) {
 
   function fire (method, url, opt) {
     var fireOptions = opt || {};
+    fireOptions.json = 'json' in fireOptions ? fireOptions.json : {};
     fireOptions.url = url;
     fireOptions.method = method.toUpperCase();
-
-    if (!fireOptions.headers) {
-      fireOptions.headers = {};
-    }
-    if (!fireOptions.headers['Content-Type']) {
-      fireOptions.headers['Content-Type'] = 'application/json';
-    }
 
     var req = contra.emitter({
       done: false,
