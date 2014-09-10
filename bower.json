@@ -1,7 +1,7 @@
 {
   "name": "measly",
   "description": "A measly wrapper around XHR to help you contain your requests",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "homepage": "https://github.com/bevacqua/measly",
   "author": {
     "name": "Nicolas Bevacqua",

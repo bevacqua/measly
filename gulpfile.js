@@ -1,5 +1,10 @@
 'use strict';
 
+var prettyBytes = require('pretty-bytes');
+var gzipSize = require('gzip-size');
+var fs = require('fs');
+var path = require('path');
+var contra = require('contra');
 var gulp = require('gulp');
 var bump = require('gulp-bump');
 var git = require('gulp-git');
@@ -24,16 +29,11 @@ var extended = [
 
 var succint = '// <%= pkg.name %>@v<%= pkg.version %>, <%= pkg.license %> licensed. <%= pkg.homepage %>\n';
 
-gulp.task('clean', function () {
-  gulp.src('./dist', { read: false })
-    .pipe(clean());
-});
-
-gulp.task('build', ['clean', 'bump'], function () {
+function build () {
   var pkg = require('./package.json');
 
-  return browserify('./src/measly.js')
-    .bundle({ debug: true, standalone: 'measly' })
+  return browserify('./src/measly.js', { debug: true, standalone: 'measly' })
+    .bundle()
     .pipe(source('measly.js'))
     .pipe(streamify(header(extended, { pkg : pkg } )))
     .pipe(gulp.dest('./dist'))
@@ -42,17 +42,17 @@ gulp.task('build', ['clean', 'bump'], function () {
     .pipe(streamify(header(succint, { pkg : pkg } )))
     .pipe(streamify(size()))
     .pipe(gulp.dest('./dist'));
-});
+}
 
-gulp.task('bump', function () {
+function bumpOnly () {
   var bumpType = process.env.BUMP || 'patch'; // major.minor.patch
 
   return gulp.src(['./package.json', './bower.json'])
     .pipe(bump({ type: bumpType }))
     .pipe(gulp.dest('./'));
-});
+}
 
-gulp.task('tag', ['build'], function () {
+function tag () {
   var pkg = require('./package.json');
   var v = 'v' + pkg.version;
   var message = 'Release ' + v;
@@ -62,18 +62,22 @@ gulp.task('tag', ['build'], function () {
     .pipe(git.tag(v, message))
     .pipe(git.push('origin', 'master', '--tags'))
     .pipe(gulp.dest('./'));
+}
+
+function publish (done) {
+  require('child_process').exec('npm publish', { stdio: 'inherit' }, done);
+}
+
+gulp.task('clean', function () {
+  gulp.src('./dist', { read: false })
+    .pipe(clean());
 });
 
-gulp.task('npm', ['tag'], function (done) {
-  var child = require('child_process').exec('npm publish', {}, function () {
-    done();
-  });
-
-  child.stdout.pipe(process.stdout);
-  child.stderr.pipe(process.stderr);
-  child.on('error', function () {
-    throw new Error('unable to publish');
-  });
+gulp.task('build', ['clean'], build);
+gulp.task('bump', bumpOnly);
+gulp.task('bump-build', ['bump'], build);
+gulp.task('tag', ['bump-build'], tag);
+gulp.task('npm', publish);
+gulp.task('release', ['tag'], function () {
+  gulp.start('npm');
 });
-
-gulp.task('release', ['npm']);
