@@ -3,7 +3,7 @@
 var _find = require('lodash.find');
 var raf = require('raf');
 var xhr = require('xhr');
-var contra = require('contra');
+var emitter = require('contra.emitter');
 var cache = require('./cache');
 var aggregate = require('./aggregate');
 var emitCascade = require('./emitCascade');
@@ -17,7 +17,7 @@ function measly (measlyOptions, parent) {
     return layer;
   }
 
-  layer = contra.emitter({
+  layer = emitter({
     layer: thinner,
     parent: parent,
     context: measlyOptions.context,
@@ -61,7 +61,7 @@ function measly (measlyOptions, parent) {
     fireOptions.url = url;
     fireOptions.method = method.toUpperCase();
 
-    var req = contra.emitter({
+    var req = emitter({
       done: false,
       requested: false,
       prevented: false,

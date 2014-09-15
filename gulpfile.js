@@ -4,7 +4,6 @@ var prettyBytes = require('pretty-bytes');
 var gzipSize = require('gzip-size');
 var fs = require('fs');
 var path = require('path');
-var contra = require('contra');
 var gulp = require('gulp');
 var bump = require('gulp-bump');
 var git = require('gulp-git');
