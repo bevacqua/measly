@@ -1,3 +1,7 @@
+# 1.3.1 Canteen Stick
+
+- Bump `contra.emitter` to 1.0.1
+
 # 1.3.0 Cat Soup
 
 - Remove `contra` in favor of leaner `contra.emitter`
