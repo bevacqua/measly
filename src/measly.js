@@ -1,6 +1,5 @@
 'use strict';
 
-var _find = require('lodash.find');
 var raf = require('raf');
 var xhr = require('xhr');
 var emitter = require('contra.emitter');
@@ -185,12 +184,22 @@ function find (context, shallow) {
   var depleted;
   var layers = aggregate.contexts(core);
   while (context && !depleted) {
-    var needle = _find(layers, { context: context });
+    var needle = sameContext(layers);
     if (needle) {
       return needle.layer;
     }
     context = context.parentNode;
     depleted = shallow === true;
+  }
+  function sameContext (layers) {
+    var i;
+    var len = layers.length;
+    for (i = 0; i < len; i++) {
+      var layer = layers[i];
+      if (layer.context === context) {
+        return layer;
+      }
+    }
   }
 }
 

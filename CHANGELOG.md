@@ -1,3 +1,7 @@
+# 1.3.5 Carl Marx
+
+- Removed dependency on `lodash.find`
+
 # 1.3.1 Canteen Stick
 
 - Bump `contra.emitter` to 1.0.1
