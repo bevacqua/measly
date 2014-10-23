@@ -1,3 +1,7 @@
+# 1.3.6 Mayday Mayday
+
+- Introduced `.aborted` property on individual requests
+
 # 1.3.5 Carl Marx
 
 - Removed dependency on `lodash.find`

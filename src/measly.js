@@ -153,6 +153,7 @@ function measly (measlyOptions, parent) {
   }
 
   function abortRequest (req) {
+    req.aborted = true;
     req.prevented = true;
     emitCascade(req, 'abort', req.xhr);
 
