@@ -2,7 +2,7 @@
 
 var raf = require('raf');
 var xhr = require('xhr');
-var emitter = require('contra.emitter');
+var emitter = require('contra/emitter');
 var cache = require('./cache');
 var aggregate = require('./aggregate');
 var emitCascade = require('./emitCascade');
