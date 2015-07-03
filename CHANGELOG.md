@@ -1,3 +1,7 @@
+# 1.3.8 Aural Emission
+
+- Replaced `contra.emitter` with `contra@1.9.1/emitter`
+
 # 1.3.6 Mayday Mayday
 
 - Introduced `.aborted` property on individual requests
