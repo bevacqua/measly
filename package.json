@@ -1,7 +1,7 @@
 {
   "name": "measly",
   "description": "A measly wrapper around XHR to help you contain your requests",
-  "version": "1.3.8",
+  "version": "1.4.0",
   "homepage": "https://github.com/bevacqua/measly",
   "author": {
     "email": "ng@bevacqua.io",
@@ -13,6 +13,11 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/bevacqua/measly.git"
+  },
+  "dependencies": {
+    "contra": "1.9.1",
+    "raf": "^2.0.1",
+    "xhr": "2.2.2"
   },
   "devDependencies": {
     "browserify": "^5.11.1",
@@ -28,10 +33,5 @@
     "gzip-size": "^1.0.0",
     "pretty-bytes": "^1.0.1",
     "vinyl-source-stream": "^0.1.1"
-  },
-  "dependencies": {
-    "contra": "1.9.1",
-    "raf": "^2.0.1",
-    "xhr": "^1.14.1"
   }
 }
