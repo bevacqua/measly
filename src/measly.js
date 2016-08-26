@@ -137,10 +137,10 @@ function measly (measlyOptions, parent) {
       }
       if (err) {
         emitCascade(req, 'error', err, body);
-        emitCascade(req, err.statusCode, err, body);
       } else {
         emitCascade(req, 'data', body);
       }
+      emitCascade(req, res.statusCode, err, body);
       untrack(req);
     }
 
